@@ -3,11 +3,11 @@
 As a frontend developer, my goal is to design and implement a **Book Library** application using HTML, CSS, JavaScript, and React (with optional Tailwind CSS). The application allows users to search for books and view detailed information about them using the [Open Library API](https://savanna.alxafrica.com/rltoken/Fp9PU0buZrukBwUKwMmXsQ).
 
 ### This project enables me to practice:
-### Integrating external APIs
-### Handling user input
-### Managing state
-### Building a Responsive 
-### Visually Appealing User Interface.
+1. Integrating external APIs
+2. Handling user input
+3. Managing state
+4. Building a Responsive 
+5. Visually Appealing User Interface.
 
 ### **Functional Requirements:**
 
