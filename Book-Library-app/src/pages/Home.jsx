@@ -8,15 +8,13 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  //Handle book search
-   
+  // Handle book search
   const handleSearch = async (query) => {
     try {
       setLoading(true);
       setError(null);
 
       const results = await fetchBooks(query);
-
       setBooks(results.slice(0, 20));
 
     } catch (err) {
@@ -27,42 +25,70 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        📚 Book Library
-      </h1>
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+      style={{
+  backgroundImage: "url('/Landing.jpg')",
+}}
 
-      <SearchBar onSearch={handleSearch} />
+    >
+    
+      {/* Main Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12 text-white">
 
-      {/* Loading State */}
-      {loading && (
-        <p className="text-center mt-6 text-blue-600">
-          Loading books...
-        </p>
-      )}
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            📚 My Book Library
+          </h1>
+          <p className="text-lg text-gray-200">
+            Search and discover your favorite books instantly
+          </p>
+        </div>
 
-      {/* Error State */}
-      {error && (
-        <p className="text-center mt-6 text-red-600">
-          {error}
-        </p>
-      )}
+        {/* Search Bar */}
+        <div className="mb-10 flex justify-center">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center mt-10">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-white"></div>
+            <p className="mt-4 text-gray-200">Searching books...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <p className="text-center mt-6 text-red-400">
+            {error}
+          </p>
+        )}
+
+        {/* Results Count */}
+        {!loading && books.length > 0 && (
+          <p className="text-gray-200 mb-6">
+            Showing {books.length} results
+          </p>
+        )}
+
         {/* No Results State */}
+        {!loading && books.length === 0 && !error && (
+          <p className="text-center text-gray-300 mt-10">
+            No books found. Try searching for something else.
+          </p>
+        )}
 
-      
-      
-      {loading && (
-      <div className="flex justify-center mt-10">
-       <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600"></div>
-       </div>
-       )}
+        {/* Books Grid */}
+        {!loading && books.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-6 pb-16">
+            {books.map((book) => (
+              <BookCard key={book.key} book={book} />
+            ))}
+          </div>
+        )}
 
- 
-      {/* Books Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-        {books.map((book) => (
-          <BookCard key={book.key} book={book} />
-        ))}
       </div>
     </div>
   );
