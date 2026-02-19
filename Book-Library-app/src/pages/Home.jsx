@@ -1,34 +1,29 @@
+import { useState } from "react";
 import SearchBar from "../components/SearchBar";
 import BookCard from "../components/BookCard";
-
-
-//Home Page
-// -Displays search bar and list of books.
+import { fetchBooks } from "../services/openLibraryApi";
 
 function Home() {
-  const dummyBooks = [
-    {
-      key: "OL1M",
-      title: "The Great Gatsby",
-      author_name: ["F. Scott Fitzgerald"],
-      cover_i: 8231856,
-    },
-    {
-      key: "OL2M",
-      title: "1984",
-      author_name: ["George Orwell"],
-      cover_i: 7222246,
-    },
-    {
-      key: "OL3M",
-      title: "To Kill a Mockingbird",
-      author_name: ["Harper Lee"],
-      cover_i: 8225261,
-    },
-  ];
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSearch = (query) => {
-    console.log("Searching for:", query);
+  //Handle book search
+   
+  const handleSearch = async (query) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const results = await fetchBooks(query);
+
+      setBooks(results.slice(0, 20));
+
+    } catch (err) {
+      setError("Failed to fetch books. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,8 +34,33 @@ function Home() {
 
       <SearchBar onSearch={handleSearch} />
 
+      {/* Loading State */}
+      {loading && (
+        <p className="text-center mt-6 text-blue-600">
+          Loading books...
+        </p>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <p className="text-center mt-6 text-red-600">
+          {error}
+        </p>
+      )}
+        {/* No Results State */}
+
+      
+      
+      {loading && (
+      <div className="flex justify-center mt-10">
+       <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600"></div>
+       </div>
+       )}
+
+ 
+      {/* Books Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-        {dummyBooks.map((book) => (
+        {books.map((book) => (
           <BookCard key={book.key} book={book} />
         ))}
       </div>

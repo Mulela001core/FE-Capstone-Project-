@@ -1,16 +1,21 @@
 import { Link } from "react-router-dom";
 
-// 
-//  BookCard Component
-//  Displays basic information about a book and links to the BookDetail page
+//
+//BookCard Component
+
+// Receives book data as props and renders a card with title, author, and cover image
 
 function BookCard({ book }) {
   const coverUrl = book.cover_i
     ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
     : "https://via.placeholder.com/150x220?text=No+Cover";
 
+  // Extract clean work ID from book key for routing
+  
+  const workId = book.key.split("/").pop();
+
   return (
-    <Link to={`/book/${book.key}`} className="block">
+    <Link to={`/book/${workId}`} className="block">
       <div className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition">
         <img
           src={coverUrl}
@@ -31,4 +36,3 @@ function BookCard({ book }) {
 }
 
 export default BookCard;
-
