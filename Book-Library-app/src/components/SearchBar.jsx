@@ -17,6 +17,7 @@ function SearchBar({ onSearch }) {
         onSubmit={handleSubmit}
          className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-2xl mx-auto">
         
+        {/* Search Input */}
         <input
         type="text"
         placeholder="Search for books..."
@@ -26,6 +27,7 @@ function SearchBar({ onSearch }) {
         aria-label="Search books"
         />
 
+            {/* Search Button */}
        <button
         type="submit"
         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"

@@ -169,6 +169,8 @@ function BookDetails() {
               <h3 className="font-semibold mb-2 text-gray-800">
                 Subjects
               </h3>
+
+              {/* Display up to 10 subjects as badges */}
               <div className="flex flex-wrap gap-2">
                 {book.subjects.slice(0, 10).map((subject, index) => (
                   <span
@@ -191,6 +193,8 @@ function BookDetails() {
                 : "bg-green-600 hover:bg-green-700"
             }`}
           >
+
+            {/* Button text changes based on favorite status */}
             {isFavorite
               ? "Remove from Favorites"
               : "Add to Favorites"}

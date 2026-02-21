@@ -22,11 +22,14 @@ function BookCard({ book }) {
           alt={book.title}
           className="w-full h-56 object-cover rounded-md mb-4"
         />
-
+        
+        {/* Title with line clamp for overflow */}
         <h3 className="text-lg font-semibold mb-2 line-clamp-2">
           {book.title}
         </h3>
 
+
+        {/* Authors may be an array, so we join them with commas */}
         <p className="text-sm text-gray-600">
           {book.author_name?.join(", ") || "Unknown Author"}
         </p>

@@ -1,94 +1,54 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import BookCard from "../components/BookCard";
-import { fetchBooks } from "../services/openLibraryApi";
 
+//HOME PAGE (LANDING PAGE)
 function Home() {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  // Handle book search
-  const handleSearch = async (query) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const results = await fetchBooks(query);
-      setBooks(results.slice(0, 20));
-
-    } catch (err) {
-      setError("Failed to fetch books. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const handleSearch = (query) => {
+    navigate(`/results?q=${query}`);
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat relative"
-      style={{
-  backgroundImage: "url('/Landing.jpg')",
-}}
-
-    >
     
-      {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12 text-white">
+    <div
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/Landing.jpg')" }}
+    >
 
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            📚 My Book Library
-          </h1>
-          <p className="text-lg text-gray-200">
-            Search and discover your favorite books instantly
-          </p>
+
+      {/* Blue Overlay */}
+      <div className="absolute inset-0 bg-linear-to-tr from-slate-900/80 via-blue-900/40 to-transparent"></div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center text-white">
+        
+        {/* Badge */}
+        <div className="mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-sm">
+          ✨ Powered by Google Books API
         </div>
 
-        {/* Search Bar */}
-        <div className="mb-10 flex justify-center">
+        {/* Main Heading */}
+        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+          Discover Your Next <br /> Great Read
+        </h1>
+
+        {/* Subtitle */}
+        <p className="max-w-2xl text-lg md:text-xl text-gray-200 mb-8">
+          Search through millions of books from around the world.
+          Find detailed information and previews all in one place.
+        </p>
+
+         <div className="w-full max-w-2xl">
           <SearchBar onSearch={handleSearch} />
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex flex-col items-center mt-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-white"></div>
-            <p className="mt-4 text-gray-200">Searching books...</p>
-          </div>
-        )}
+        {/* Helper Text */}
+        <p className="mt-4 text-gray-300 text-sm">
+          Try searching for "science", "fiction", or your favorite author
+        </p>
 
-        {/* Error State */}
-        {error && (
-          <p className="text-center mt-6 text-red-400">
-            {error}
-          </p>
-        )}
-
-        {/* Results Count */}
-        {!loading && books.length > 0 && (
-          <p className="text-gray-200 mb-6">
-            Showing {books.length} results
-          </p>
-        )}
-
-        {/* No Results State */}
-        {!loading && books.length === 0 && !error && (
-          <p className="text-center text-gray-300 mt-10">
-            No books found. Try searching for something else.
-          </p>
-        )}
-
-        {/* Books Grid */}
-        {!loading && books.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-6 pb-16">
-            {books.map((book) => (
-              <BookCard key={book.key} book={book} />
-            ))}
-          </div>
-        )}
-
+        
       </div>
     </div>
   );
