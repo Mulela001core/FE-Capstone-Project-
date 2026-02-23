@@ -15,7 +15,7 @@ As a frontend developer, my goal is to design and implement a **Book Library**�
     
     *   Use the [Open Library API](https://savanna.alxafrica.com/rltoken/Fp9PU0buZrukBwUKwMmXsQ) to fetch book data based on user search queries.
         
-    *   Display a list of books that match the search criteria, showing key information such as:
+    *   Display a list of books that match the search criteria, showing key information that is:
         
         *   **Book Cover**: A thumbnail image of the book cover.
             
@@ -23,20 +23,12 @@ As a frontend developer, my goal is to design and implement a **Book Library**�
             
         *   **Author(s)**: The author(s) of the book.
             
-        *   **Publisher**: The name of the publisher (if available).
-            
+                
 2.  **Book Details View:**
     
     *   When a user clicks on a book from the list, display a detailed view with additional information, including:
         
-        *   **Description**: A summary or description of the book’s content.
-            
-        *   **Publication Date**: The date the book was published.
-            
-        *   **ISBN**: The ISBN number of the book.
-            
-        *   **Number of Pages**: The total number of pages in the book.
-            
+        *   **Description**: A summary or description of the book’s content.         
         *   **Subjects**: Categories or genres the book belongs to (e.g., Fiction, Science, History).
             
 3.  **Search Functionality:**
@@ -68,7 +60,7 @@ As a frontend developer, my goal is to design and implement a **Book Library**�
         
 2.  **API Integration:**
     
-    *   Use fetch or axios to request data from the Open Library API and handle asynchronous data fetching.
+    *   Use fetch to request data from the Open Library API and handle asynchronous data fetching.
         
     *   Display the fetched book data in a structured and visually appealing format.
         
@@ -86,7 +78,7 @@ As a frontend developer, my goal is to design and implement a **Book Library**�
         
 5.  **Deployment:**
     
-    *   Deploy the completed application on a free hosting platform like [Netlify](https://savanna.alxafrica.com/rltoken/YT5kozHiiSzDR8Nt2n0mSw) or [Vercel](https://savanna.alxafrica.com/rltoken/oMRReHxMxsrta94A4hmHKA).
+    *   Deploy the completed application on a free hosting platform like [Netlify](https://savanna.alxafrica.com/rltoken/YT5kozHiiSzDR8Nt2n0mSw) 
         
     *   Ensure the application is accessible and performs well in the deployed environment.
         
