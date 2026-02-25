@@ -18,7 +18,7 @@ function Results() {
       try {
         setLoading(true);
         const results = await fetchBooks(query);
-        setBooks(results.slice(0, 20));
+        setBooks(results);
       } catch (err) {
         setError("Failed to fetch books.");
       } finally {
@@ -41,8 +41,16 @@ function Results() {
 
         
 {/* Loading and Error States */}
-        {loading && <p>Loading...</p>}
+        {loading && (
+  <div className="flex justify-center py-10">
+    <p className="text-lg font-medium animate-pulse">Loading books...</p>
+  </div>
+)}
         {error && <p className="text-red-500">{error}</p>}
+
+        {!loading && books.length === 0 && (
+  <p className="text-gray-600">No books found.</p>
+)}
 
 {/* Books Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

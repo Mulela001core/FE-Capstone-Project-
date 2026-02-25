@@ -4,8 +4,8 @@
 export const fetchBooks = async (query) => {
   try {
     const response = await fetch(
-      `https://openlibrary.org/search.json?q=${query}`
-    );
+  `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
+);
 
     // Check if response is successful
 
@@ -16,7 +16,7 @@ export const fetchBooks = async (query) => {
     const data = await response.json();
     
 // Return the array of book results
-    return data.docs; 
+    return data.docs.slice(0, 15);
   } catch (error) {
     console.error("Error fetching books:", error);
     throw error;
