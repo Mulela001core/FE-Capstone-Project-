@@ -14,6 +14,7 @@ export const fetchBooks = async (query) => {
     }
 
     const data = await response.json();
+    
 // Return the array of book results
     return data.docs; 
   } catch (error) {
