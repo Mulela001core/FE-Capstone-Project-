@@ -22,12 +22,12 @@ const navigate = useNavigate();
   return (
     <div className="min-h-screen p-6 bg-gray-100">
       {/* Back Button */}
-<button
-  onClick={() => navigate(-1)}
-  className="mb-4 text-blue-600 hover:underline"
->
-  ← Back
-</button>
+      <button
+        onClick={() => navigate("/")}
+        className="mb-6 px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
+      >
+        ← Back to Home
+      </button>
 
 
       {/* Page Title */}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 
 //
@@ -8,16 +8,14 @@ import { useFavorites } from "../context/FavoritesContext";
 
 function BookCard({ book }) {
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const navigate = useNavigate(); // NEW: For Future Reads CTA
 
   // Normalize book ID
   // Works for both Open Library API results and stored favorites
   const workId = book.key
     ? book.key.split("/").pop()
     : book.id;
-
-  // Normalize cover image
-  // Case 1: Favorite already has full cover URL stored
-  // Case 2: API result has cover_i (numeric ID)
+    
   const coverUrl =
     book.cover ||
     (book.cover_i
@@ -42,7 +40,7 @@ function BookCard({ book }) {
     const bookData = {
       id: workId,
       title: book.title,
-      cover: coverUrl, // store full URL for simplicity
+      cover: coverUrl,
       author: author,
     };
 
@@ -51,38 +49,72 @@ function BookCard({ book }) {
       : addFavorite(bookData);
   };
 
-  return (
-    <Link to={`/book/${workId}`} className="block relative">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg translate-y-1 transition-all duration-300 p-4">
+  // to handle "future reads" click
+  const handleFutureReadsClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    const bookData = {
+      id: workId,
+      title: book.title,
+      cover: coverUrl,
+      author: author,
+    };
+
+    // Save pending book in localStorage
+    localStorage.setItem("pendingFutureRead", JSON.stringify(bookData));
+
+    // Redirect to signup page
+    navigate("/signup");
+  };
+
+  return (
+    <Link
+      to={`/book/${workId}`}
+      className="block relative group"
+      aria-label={`View details for ${book.title}`} // NEW: accessibility label
+    >
+      <div className="bg-white rounded-lg shadow-md overflow-hidden p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group-hover:scale-[1.01]">
+        
         {/* Favorite Badge */}
         <button
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 text-xl"
+          className="absolute top-3 right-3 text-2xl text-yellow-400 hover:text-yellow-500 transition-colors duration-200"
+          aria-label={favorite ? "Remove from favorites" : "Add to favorites"} // NEW: accessible label
         >
           {favorite ? "★" : "☆"}
         </button>
 
-        <img
-          src={coverUrl}
-          alt={book.title}
-          className="w-full h-64 object-cover rounded"
-        />
+        <div className="overflow-hidden rounded">
+          <img
+            src={coverUrl}
+            alt={`Cover of ${book.title}`} // NEW: improved alt text
+            className="w-full h-64 object-cover rounded transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
 
         {/* Title with line clamp for overflow */}
-        <h3 className="text-lg font-semibold mb-2 line-clamp-2">
+        <h3 className="text-lg font-semibold mt-4 mb-1 line-clamp-2 text-gray-800">
           {book.title}
         </h3>
 
         {/* Authors may be an array, so we join them with commas */}
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 mb-2">
           {author}
         </p>
 
-        {/* Optional: Add a "View Details" button or link */}
-        <p className="mt-4 text-blue-600 hover:underline text-sm">
+        {/* "View Details" link */}
+        <p className="mt-2 text-blue-600 hover:underline text-sm font-medium">
           View Details
         </p>
+
+        {/* NEW: Add to Future Reads CTA */}
+        <button
+          onClick={handleFutureReadsClick}
+          className="mt-3 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
+        >
+          Add to Future Reads
+        </button>
 
       </div>
     </Link>

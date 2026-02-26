@@ -3,13 +3,12 @@
 // - Fetches book details from Open Library API using the book ID from URL params.
 // - Shows title, author(s), description, subjects, and cover image.
 
-
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-
+import { useParams, Link, useNavigate } from "react-router-dom"; 
 
 function BookDetails() {
-  const { id } = useParams(); // Extract book ID from URL
+  const { id } = useParams(); // Get book ID from URL
+  const navigate = useNavigate(); // For Back Button and Future Reads CTA
 
   const [book, setBook] = useState(null);
   const [authors, setAuthors] = useState([]);
@@ -96,8 +95,8 @@ function BookDetails() {
   // Loading State
   if (loading) {
     return (
-      <div className="flex justify-center mt-20">
-        <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-600"></div>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600"></div>
       </div>
     );
   }
@@ -105,7 +104,7 @@ function BookDetails() {
   // Error State
   if (error) {
     return (
-      <div className="text-center mt-20 text-red-600 font-medium">
+      <div className="text-center min-h-screen flex items-center justify-center text-red-600 font-medium">
         {error}
       </div>
     );
@@ -119,44 +118,63 @@ function BookDetails() {
     : "https://via.placeholder.com/300x450?text=No+Cover";
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-white py-12 px-6">
+
+      {/* Add Back to Results Button */}
+      <div className="max-w-6xl mx-auto mb-6 flex justify-between items-center">
+        <button
+          onClick={() => navigate(-1)}
+          className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
+        >
+          ← Back to Results
+        </button>
+
+        {/* View Favorites button to page-level navigation */}
+        <Link
+          to="/favorites"
+          className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
+        >
+        
+          View Favorites
+        </Link>
+      </div>
 
       {/* Breadcrumb Navigation */}
-      <nav className="text-sm mb-6 text-gray-600">
-        <Link to="/" className="hover:underline text-blue-600">
+      <nav className="max-w-6xl mx-auto text-sm mb-8 text-gray-500">
+        <Link to="/" className="hover:underline text-blue-600 font-medium">
           Home
         </Link>
         <span className="mx-2">/</span>
-        <span>{book.title}</span>
+        <span className="text-gray-700">{book.title}</span>
       </nav>
 
       {/* Main Card Layout */}
-      <div className="max-w-5xl mx-auto bg-white shadow-md rounded-xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto bg-white border border-gray-200 shadow-lg rounded-2xl p-10 grid grid-cols-1 md:grid-cols-3 gap-10">
 
         {/* Book Cover */}
         <div className="flex justify-center">
           <img
             src={coverUrl}
             alt={book.title}
-            className="w-64 rounded-lg shadow-md"
+            className="w-72 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
           />
         </div>
 
         {/* Book Information */}
         <div className="md:col-span-2">
-          <h1 className="text-3xl font-bold mb-2 text-gray-800">
+          <h1 className="text-4xl font-bold mb-3 text-gray-800 leading-tight">
             {book.title}
           </h1>
 
           {/* Authors */}
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 text-lg mb-6">
             {authors.length > 0
               ? authors.join(", ")
               : "Unknown Author"}
           </p>
 
           {/* Description */}
-          <p className="text-gray-700 leading-relaxed mb-6">
+          <p className="text-gray-700 leading-relaxed mb-8 text-[15px]">
             {book.description
               ? typeof book.description === "string"
                 ? book.description
@@ -166,17 +184,16 @@ function BookDetails() {
 
           {/* Subjects */}
           {book.subjects && (
-            <div className="mb-6">
-              <h3 className="font-semibold mb-2 text-gray-800">
+            <div className="mb-8">
+              <h3 className="font-semibold mb-3 text-gray-800 text-lg">
                 Subjects
               </h3>
 
-              {/* Display up to 10 subjects as badges */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {book.subjects.slice(0, 10).map((subject, index) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full"
+                    className="bg-blue-50 text-blue-700 text-xs px-4 py-2 rounded-full font-medium border border-blue-100"
                   >
                     {subject}
                   </span>
@@ -185,31 +202,7 @@ function BookDetails() {
             </div>
           )}
 
-          {/* Favorite Button */}
-          <button
-            onClick={toggleFavorite}
-            className={`px-4 py-2 rounded-lg text-white transition ${
-              isFavorite
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-green-600 hover:bg-green-700"
-            }`}
-          >
-
-            {/* Button text changes based on favorite status */}
-            {isFavorite
-              ? "Remove from Favorites"
-              : "Add to Favorites"}
-          </button>
         </div>
-
-            <Link
-  to="/favorites"
-  className="inline-block mt-4 px-5 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
->
-  Favorites
-</Link>
-
-
       </div>
     </div>
   );

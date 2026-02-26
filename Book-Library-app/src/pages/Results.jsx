@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fetchBooks } from "../services/openLibraryApi";
 import BookCard from "../components/BookCard";
+import { useNavigate } from "react-router-dom";
 
 function Results() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
+
+  const navigate = useNavigate(); // NEW: For any CTA buttons
 
   //State for books, loading, and error
   const [books, setBooks] = useState([]);
@@ -26,36 +29,50 @@ function Results() {
       }
     };
 
-//Only search if there's a query
+    //Only search if there's a query
     if (query) searchBooks();
   }, [query]);
 
   return (
     <div className="min-h-screen bg-gray-100 px-6 py-12">
-   <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto">
 
-{/* Heading with search query */}
+        <div className="max-w-6xl mx-auto mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
+          >
+            ← Back to Home
+          </button>
+        </div>
+
+        {/* Heading with search query */}
         <h2 className="text-3xl font-bold mb-6">
           Results for "{query}"
         </h2>
 
-        
-{/* Loading and Error States */}
+        {/* Loading and Error States */}
         {loading && (
-  <div className="flex justify-center py-10">
-    <p className="text-lg font-medium animate-pulse">Loading books...</p>
-  </div>
-)}
+          <div className="flex justify-center py-10">
+            <p className="text-lg font-medium animate-pulse">Loading books...</p>
+          </div>
+        )}
         {error && <p className="text-red-500">{error}</p>}
 
         {!loading && books.length === 0 && (
-  <p className="text-gray-600">No books found.</p>
-)}
+          <p className="text-gray-600">No books found.</p>
+        )}
 
-{/* Books Grid */}
+        {/* Books Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {books.map((book) => (
-            <BookCard key={book.key} book={book} />
+            <div key={book.key || book.id} className="relative">
+              
+              {/* Wrapped BookCard in container */}
+              <BookCard book={book} />
+
+              
+            </div>
           ))}
         </div>
       </div>
