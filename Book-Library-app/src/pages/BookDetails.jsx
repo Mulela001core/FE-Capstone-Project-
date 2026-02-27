@@ -5,16 +5,17 @@
 
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom"; 
+import { useFavorites } from "../context/FavoritesContext"; // Import context
 
 function BookDetails() {
   const { id } = useParams(); // Get book ID from URL
   const navigate = useNavigate(); // For Back Button and Future Reads CTA
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites(); // Use the hook
 
   const [book, setBook] = useState(null);
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -48,14 +49,6 @@ function BookDetails() {
           setAuthors(authorNames);
         }
 
-        // Check if book is already in favorites
-        const savedFavorites =
-          JSON.parse(localStorage.getItem("favorites")) || [];
-
-        if (savedFavorites.includes(id)) {
-          setIsFavorite(true);
-        }
-
       } catch (err) {
         console.error("Error fetching book details:", err);
         setError("Unable to load book details. Please try again.");
@@ -68,28 +61,20 @@ function BookDetails() {
   }, [id]);
 
   
-    //Toggle Favorite Status
-   
+  // Toggle Favorite Status
+  const favorite = isFavorite(id); // Check context state
+
   const toggleFavorite = () => {
-    const savedFavorites =
-      JSON.parse(localStorage.getItem("favorites")) || [];
+    const bookData = {
+      id: id,
+      title: book.title,
+      cover: book.covers
+        ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
+        : "https://via.placeholder.com/300x450?text=No+Cover",
+      author: authors.length > 0 ? authors.join(", ") : "Unknown Author",
+    };
 
-    let updatedFavorites;
-
-    if (savedFavorites.includes(id)) {
-      updatedFavorites = savedFavorites.filter(
-        (favId) => favId !== id
-      );
-      setIsFavorite(false);
-    } else {
-      updatedFavorites = [...savedFavorites, id];
-      setIsFavorite(true);
-    }
-
-    localStorage.setItem(
-      "favorites",
-      JSON.stringify(updatedFavorites)
-    );
+    favorite ? removeFavorite(id) : addFavorite(bookData);
   };
 
   // Loading State
@@ -134,7 +119,6 @@ function BookDetails() {
           to="/favorites"
           className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
         >
-        
           View Favorites
         </Link>
       </div>
@@ -162,9 +146,23 @@ function BookDetails() {
 
         {/* Book Information */}
         <div className="md:col-span-2">
-          <h1 className="text-4xl font-bold mb-3 text-gray-800 leading-tight">
-            {book.title}
-          </h1>
+          {/* Title and Favorite Star Row */}
+          <div className="flex justify-between items-start mb-3 gap-4">
+            <h1 className="text-4xl font-bold text-gray-800 leading-tight">
+              {book.title}
+            </h1>
+            
+            {/* Clickable Favorite Star */}
+            <button
+              onClick={toggleFavorite}
+              className="text-4xl transition-transform duration-200 hover:scale-110 focus:outline-none"
+              aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              <span className={favorite ? "text-yellow-400" : "text-gray-300 hover:text-yellow-200"}>
+                {favorite ? "★" : "☆"}
+              </span>
+            </button>
+          </div>
 
           {/* Authors */}
           <p className="text-gray-600 text-lg mb-6">

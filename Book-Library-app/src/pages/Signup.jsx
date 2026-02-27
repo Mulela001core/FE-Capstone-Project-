@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
@@ -92,10 +93,16 @@ function Signup() {
           </button> 
         </form>
 
-        {/*Optional Login Link */}
+               {/* Optional Login Link */}
 
         <p className="text-sm text-gray-500 text-center mt-6">
-          Already have an account? Log in
+          Already have an account?{" "}
+          <Link 
+            to="/login" 
+            className="text-purple-600 font-medium hover:text-purple-700 hover:underline transition duration-300"
+          >
+            Log in
+          </Link>
         </p>
 
       </div>

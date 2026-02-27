@@ -69,55 +69,54 @@ function BookCard({ book }) {
   };
 
   return (
-    <Link
-      to={`/book/${workId}`}
-      className="block relative group"
-      aria-label={`View details for ${book.title}`} // NEW: accessibility label
-    >
-      <div className="bg-white rounded-lg shadow-md overflow-hidden p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group-hover:scale-[1.01]">
-        
-        {/* Favorite Badge */}
-        <button
-          onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 text-2xl text-yellow-400 hover:text-yellow-500 transition-colors duration-200"
-          aria-label={favorite ? "Remove from favorites" : "Add to favorites"} // NEW: accessible label
-        >
+    <div className="relative group bg-white rounded-lg shadow-md overflow-hidden p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      
+      {/* the Favorite Star Button */}
+      <button
+        onClick={handleFavoriteClick}
+        className="absolute top-6 right-6 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all duration-200"
+        aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+      >
+        <span className={`text-2xl ${favorite ? "text-yellow-400" : "text-gray-300 hover:text-yellow-200"}`}>
           {favorite ? "★" : "☆"}
-        </button>
+        </span>
+      </button>
 
+      {/* The Main Link Area */}
+      <Link
+        to={`/book/${workId}`}
+        className="block"
+        aria-label={`View details for ${book.title}`}
+      >
         <div className="overflow-hidden rounded">
           <img
             src={coverUrl}
-            alt={`Cover of ${book.title}`} // NEW: improved alt text
+            alt={`Cover of ${book.title}`}
             className="w-full h-64 object-cover rounded transition-transform duration-300 group-hover:scale-105"
           />
         </div>
 
-        {/* Title with line clamp for overflow */}
         <h3 className="text-lg font-semibold mt-4 mb-1 line-clamp-2 text-gray-800">
           {book.title}
         </h3>
 
-        {/* Authors may be an array, so we join them with commas */}
         <p className="text-sm text-gray-600 mb-2">
           {author}
         </p>
 
-        {/* "View Details" link */}
         <p className="mt-2 text-blue-600 hover:underline text-sm font-medium">
           View Details
         </p>
+      </Link>
 
-        {/* NEW: Add to Future Reads CTA */}
-        <button
-          onClick={handleFutureReadsClick}
-          className="mt-3 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
-        >
-          Add to Future Reads
-        </button>
-
-      </div>
-    </Link>
+      {/* The Future Reads Button */}
+      <button
+        onClick={handleFutureReadsClick}
+        className="mt-3 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition font-medium"
+      >
+        Add to Future Reads
+      </button>
+    </div>
   );
 }
 
