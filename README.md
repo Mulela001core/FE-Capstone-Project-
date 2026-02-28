@@ -80,8 +80,6 @@ As a frontend developer, my goal is to design and implement a **Book Library**�
         
 5.  **Deployment:**
     
-    *   Deploy the completed application on a free hosting platform like [Netlify](https://savanna.alxafrica.com/rltoken/YT5kozHiiSzDR8Nt2n0mSw) 
-        
-    *   Ensure the application is accessible and performs well in the deployed environment.
+    *   Deploy the completed application on a free hosting platform 
         
     *   Share the deployment link as part of your project submission
