@@ -1,3 +1,5 @@
+### BOOK LIBRARY APPLICATION
+
 ### **Project Overview:**
 
 As a frontend developer, my goal is to design and implement a **Book Library** application using HTML, CSS, JavaScript, and React (with optional Tailwind CSS). The application allows users to search for books and view detailed information about them using the [Open Library API](https://savanna.alxafrica.com/rltoken/Fp9PU0buZrukBwUKwMmXsQ).
