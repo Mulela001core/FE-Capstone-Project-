@@ -1,5 +1,5 @@
 // Open Library API Service
-  //Fetch books from Open Library API based on search query
+  // Fetch books from Open Library API based on search query
  
 export const fetchBooks = async (query) => {
   try {

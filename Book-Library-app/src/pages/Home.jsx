@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 
 
-//HOME PAGE (LANDING PAGE)
+// HOME PAGE (LANDING PAGE)
 function Home() {
   const navigate = useNavigate();
 

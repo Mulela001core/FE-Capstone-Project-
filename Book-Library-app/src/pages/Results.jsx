@@ -8,9 +8,9 @@ function Results() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
 
-  const navigate = useNavigate(); // NEW: For any CTA buttons
+  const navigate = useNavigate(); 
 
-  //State for books, loading, and error
+  // State for books, loading, and error
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ function Results() {
       }
     };
 
-    //Only search if there's a query
+    // Only search if there's a query
     if (query) searchBooks();
   }, [query]);
 

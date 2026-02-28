@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-//SEARCHING (YOU INPUT AND TRIGGERS YOU TO SEARCH)
+// SEARCHING (YOU INPUT AND TRIGGERS YOU TO SEARCH)
 
 function SearchBar({ onSearch }) {
     const [searchTerm, setSearchTerm] = useState("");
 
-    //handle form submission & prevent empty searches
+    // handle form submission & prevent empty searches
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!searchTerm.trim()) return;

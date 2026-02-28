@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom"; 
-import { useFavorites } from "../context/FavoritesContext"; // Import context
+import { useFavorites } from "../context/FavoritesContext"; 
 
 function BookDetails() {
   const { id } = useParams(); // Get book ID from URL
@@ -105,7 +105,7 @@ function BookDetails() {
   return (
     <div className="min-h-screen bg-white py-12 px-6">
 
-      {/* Add Back to Results Button */}
+      {/* Back to Results Button */}
       <div className="max-w-6xl mx-auto mb-6 flex justify-between items-center">
         <button
           onClick={() => navigate(-1)}

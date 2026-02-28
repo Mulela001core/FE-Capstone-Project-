@@ -6,7 +6,7 @@ function Signup() {
   const navigate = useNavigate();
   const [pendingBook, setPendingBook] = useState(null);
 
-  // NEW: Check if user tried to save a Future Read
+  // Check if user tried to save a Future Read
   useEffect(() => {
     const savedBook = localStorage.getItem("pendingFutureRead");
     if (savedBook) {
@@ -49,7 +49,7 @@ function Signup() {
           Create an account to save books to your Future Reads list and access your favorites across devices.
         </p>
 
-        {/* NEW: Show book they tried to save */}
+        {/* Show book they tried to save */}
         {pendingBook && (
           <div className="bg-purple-50 border border-purple-200 p-4 rounded-lg mb-6">
             <p className="text-sm text-purple-700">
